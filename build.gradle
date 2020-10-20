@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    // CUCUMBER
+    testCompile 'info.cukes:cucumber-java:1.2.5'
+    testCompile group: 'info.cukes', name: 'cucumber-junit', version: '1.2.5'
+    compile group: 'info.cukes', name: 'cucumber-java', version: '1.2.5'
+    compile group: 'net.masterthought', name: 'cucumber-reporting', version: '5.3.1'
+
+    // REST Assured
+    testCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.3.1'
+    compile group: 'io.rest-assured', name: 'json-path', version: '4.3.1'
+    compile group: 'io.rest-assured', name: 'json-schema-validator', version: '4.3.1'
+    compile group: 'io.rest-assured', name: 'rest-assured-common', version: '4.3.1'
+    compile group: 'io.rest-assured', name: 'rest-assured-all', version: '4.3.1'
+
+    // JSON
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+    compile 'org.json:json:20090211'
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+// Task to run cucumber .feature test and generate report
+task cucumber() {
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            main = "cucumber.api.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin','json:build/reports/cucumber/report.json', '-f','pretty','--glue', 'runner', 'src/test/resources', '--tags']+[suite]
+        }
+    }
+}
