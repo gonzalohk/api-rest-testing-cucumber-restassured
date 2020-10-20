@@ -12,7 +12,7 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    // CUCUMBER
+    // CUCUMBER BDD
     testCompile 'info.cukes:cucumber-java:1.2.5'
     testCompile group: 'info.cukes', name: 'cucumber-junit', version: '1.2.5'
     compile group: 'info.cukes', name: 'cucumber-java', version: '1.2.5'
@@ -36,7 +36,6 @@ configurations {
     }
 }
 
-// Task to run cucumber .feature test and generate report
 task cucumber() {
     dependsOn assemble, compileTestJava
     doLast {
