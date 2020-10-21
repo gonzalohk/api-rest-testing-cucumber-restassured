@@ -1,6 +1,5 @@
 package utils;
 
-import com.fasterxml.jackson.core.JsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,5 +43,4 @@ public class JsonUtils {
         }
         return areEqual;
     }
-
 }
